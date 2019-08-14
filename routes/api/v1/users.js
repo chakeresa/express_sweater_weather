@@ -10,18 +10,19 @@ router.post("/", function (req, res, next) {
     var hashedPassword = bcrypt.hashSync(req.body.password, saltRounds);
     User.create({
       email: req.body.email,
-      passwordDigest: hashedPassword
+      passwordDigest: hashedPassword,
+      apiKey: Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15)
     })
       .then(user => {
         res.setHeader("Content-Type", "application/json");
-        res.status(201).send(JSON.stringify(user));
+        res.status(201).send(JSON.stringify({api_key: user.apiKey}));
       })
       .catch(error => {
         res.setHeader("Content-Type", "application/json");
         res.status(500).send({ error });
       });
   } else {
-    res.status(400).send({"error":"Passwords don't match"});
+    res.status(400).send(JSON.sringify({error:"Passwords don't match"}));
   }
 });
 

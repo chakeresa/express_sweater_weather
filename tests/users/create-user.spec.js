@@ -35,6 +35,20 @@ describe('api', () => {
         })
     });
 
+    test('returns an api_key', () => {
+      return request(app)
+        .post('/api/v1/users')
+        .send({
+          "email":"my_email@example.com", 
+          "password":"password", 
+          "password_confirmation":"password", 
+        })
+        .then(response => {
+          expect(Object.keys(response.body[0])).toContain('api_key')
+          expect(response.body.api_key).toEqual(expect.anything())
+        })
+    });
+
     test('should be status 400 with mismatched password', () => {
       return request(app)
         .post('/api/v1/users')
