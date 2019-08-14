@@ -1,26 +1,26 @@
 {
   "development": {
-    "username": "root",
+    "username": "chakeresa",
     "password": null,
-    "database": "database_development",
+    "database": "express_sweater_weather_development",
     "host": "127.0.0.1",
-    "dialect": "mysql",
+    "dialect": "postgres",
     "operatorsAliases": false
   },
   "test": {
-    "username": "root",
+    "username": "chakeresa",
     "password": null,
-    "database": "database_test",
+    "database": "express_sweater_weather_test",
     "host": "127.0.0.1",
-    "dialect": "mysql",
+    "dialect": "postgres",
     "operatorsAliases": false
   },
   "production": {
-    "username": "root",
+    "username": "chakeresa",
     "password": null,
-    "database": "database_production",
+    "database": "express_sweater_weather_production",
     "host": "127.0.0.1",
-    "dialect": "mysql",
+    "dialect": "postgres",
     "operatorsAliases": false
   }
 }
