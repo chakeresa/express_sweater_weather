@@ -22,8 +22,8 @@ describe('api', () => {
   });
 
   describe('Test the registration path', () => {
-    test('should be status 201', () => {
-      return request(app)
+      test('returns an api_key', () => {
+        return request(app)
         .post('/api/v1/users')
         .send({
           "email":"my_email@example.com", 
@@ -32,24 +32,12 @@ describe('api', () => {
         })
         .then(response => {
           expect(response.statusCode).toBe(201)
-        })
-    });
-
-    test('returns an api_key', () => {
-      return request(app)
-        .post('/api/v1/users')
-        .send({
-          "email":"my_email@example.com", 
-          "password":"password", 
-          "password_confirmation":"password", 
-        })
-        .then(response => {
           expect(Object.keys(response.body)).toContain('api_key')
           expect(response.body.api_key).toEqual(expect.anything())
         })
     });
 
-    test('should be status 400 with mismatched password', () => {
+    test('mismatched password', () => {
       return request(app)
         .post('/api/v1/users')
         .send({
@@ -59,10 +47,12 @@ describe('api', () => {
         })
         .then(response => {
           expect(response.statusCode).toBe(400)
+          expect(Object.keys(response.body)).toContain('error')
+          expect(response.body.error).toEqual("Passwords don't match")
         })
     });
 
-    test('should be status 400 with missing password', () => {
+    test('missing password', () => {
       return request(app)
         .post('/api/v1/users')
         .send({
@@ -71,6 +61,8 @@ describe('api', () => {
         })
         .then(response => {
           expect(response.statusCode).toBe(400)
+          expect(Object.keys(response.body)).toContain('error')
+          expect(response.body.error).toEqual("Passwords don't match")
         })
     });
   });
