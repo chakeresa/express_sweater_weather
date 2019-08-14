@@ -67,23 +67,3 @@ describe('api', () => {
     });
   });
 });
-
-// Request:
-
-// POST / api / v1 / users
-// Content - Type: application / json
-// Accept: application / json
-
-// {
-//   "email": "my_email@example.com",
-//     "password": "password"
-//   "password_confirmation": "password"
-// }
-// Response:
-
-// status: 201
-// body:
-
-// {
-//   "api_key": "jgn983hy48thw9begh98h4539h4",
-// }

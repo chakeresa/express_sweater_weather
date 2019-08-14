@@ -11,3 +11,25 @@
 
 ### Run the test suite
  - `$npm test`
+
+## API Endpoints
+
+### New user registration
+Request:
+```
+POST /api/v1/users
+Content-Type: application/json
+Accept: application/json
+
+{
+  "email": "my_email@example.com",
+  "password": "password"
+  "password_confirmation": "password"
+}
+```
+Response:
+```
+{
+  "api_key": "6kzqk71x8vezd6odo5rp",
+}
+```
