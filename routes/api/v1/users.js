@@ -23,6 +23,7 @@ router.post("/", function (req, res, next) {
         res.status(500).send({ error });
       });
   } else {
+    res.setHeader("Content-Type", "application/json");
     res.status(400).send(JSON.stringify({error:"Passwords don't match"}));
   }
 });
