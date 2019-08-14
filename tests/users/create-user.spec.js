@@ -44,7 +44,7 @@ describe('api', () => {
           "password_confirmation":"password", 
         })
         .then(response => {
-          expect(Object.keys(response.body[0])).toContain('api_key')
+          expect(Object.keys(response.body)).toContain('api_key')
           expect(response.body.api_key).toEqual(expect.anything())
         })
     });
