@@ -34,6 +34,31 @@ describe('api', () => {
           expect(response.statusCode).toBe(201)
         })
     });
+
+    test('should be status 400 with mismatched password', () => {
+      return request(app)
+        .post('/api/v1/users')
+        .send({
+          "email":"my_email@example.com", 
+          "password":"password", 
+          "password_confirmation":"otherpassword", 
+        })
+        .then(response => {
+          expect(response.statusCode).toBe(400)
+        })
+    });
+
+    test('should be status 400 with missing password', () => {
+      return request(app)
+        .post('/api/v1/users')
+        .send({
+          "email":"my_email@example.com", 
+          "password_confirmation":"password", 
+        })
+        .then(response => {
+          expect(response.statusCode).toBe(400)
+        })
+    });
   });
 });
 
