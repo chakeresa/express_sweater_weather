@@ -16,10 +16,11 @@
     "operatorsAliases": false
   },
   "production": {
+    "use_env_variable": "DATABASE_URL",
     "username": "chakeresa",
     "password": null,
     "database": "express_sweater_weather_production",
-    "host": "127.0.0.1",
+    "host": "aqueous-bastion-69439.herokuapp.com",
     "dialect": "postgres",
     "operatorsAliases": false
   }
