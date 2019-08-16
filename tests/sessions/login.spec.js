@@ -2,6 +2,7 @@ var shell = require('shelljs');
 var request = require("supertest");
 var app = require('../../app');
 var User = require('../../models').User;
+var security = require('../../util/security');
 
 describe('api', () => {
   beforeAll(() => {
@@ -14,27 +15,33 @@ describe('api', () => {
     shell.exec('npx sequelize db:migrate:undo:all')
   });
 
-  // describe('Test the login path', () => {
-  //   test('returns an api_key', () => {
-  //     let email = "my_email@example.com"
-  //     let password = "password"
-  //     user = User.create({
-  //       email: email,
-  //       passwordDigest: hashedPassword,
-  //       apiKey: randomString
-  //     });
-  //     return request(app)
-  //     .post('/api/v1/sessions')
-  //     .send({
-  //       "email":email, 
-  //       "password":password
-  //     })
-  //     .then(response => {
-  //       expect(response.statusCode).toBe(200)
-  //       expect(Object.keys(response.body)).toContain('api_key')
-  //       expect(response.body.api_key).toEqual(user.api_key)
-  //     })
-  //   });
+  describe('Test the login path', () => {
+    test('returns an api_key', () => {
+      let email = "my_email@example.com"
+      let password = "password"
+      User.create({
+        email: email,
+        passwordDigest: security.hashedPassword(password),
+        apiKey: security.randomString()
+      })
+        .then(user => {
+          var userCreated = user;
+          return request(app)
+          .post('/api/v1/sessions')
+          .send({
+            "email":email, 
+            "password":password
+          })
+        })
+        .then(response => {
+          expect(response.statusCode).toBe(200)
+          expect(Object.keys(response.body)).toContain('api_key')
+          expect(response.body.api_key).toEqual(userCreated.api_key)
+        })
+        .catch(error => {
+          console.log(error);
+        })
+    });
 
     // test('mismatched password', () => {
     //   return request(app)
@@ -64,5 +71,5 @@ describe('api', () => {
     //       expect(response.body.error).toEqual("Passwords don't match")
     //     })
     // });
-  // });
+  });
 });
