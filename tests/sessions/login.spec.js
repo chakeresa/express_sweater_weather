@@ -17,33 +17,34 @@ describe('api', () => {
 
   describe('Test the login path', () => {
     test('returns an api_key', () => {
-      let email = "my_email@example.com"
+      let email = "email@example.com"
       let password = "password"
-      return User.create({
+      const apiKey = security.randomString()
+      User.create({
         email: email,
         passwordDigest: security.hashedPassword(password),
-        apiKey: security.randomString()
+        apiKey: apiKey
       })
-        .then(user => {
-          return request(app)
+      .then (user => {
+        return request(app)
           .post('/api/v1/sessions')
           .send({
             "email":email, 
             "password":password
           })
-        })
-        .then(response => {
-          expect(response.statusCode).toBe(200);
-          expect(Object.keys(response.body)).toContain('api_key');
-          expect(response.body.api_key).toEqual(user.api_key);
-        })
+      })
+      .then (response => {
+        expect(response.statusCode).toBe(200);
+        expect(Object.keys(response.body)).toContain('api_key');
+        expect(response.body.api_key).toEqual(apiKey);
+      })
     });
 
     test('user doesnt exist', () => {
       return request(app)
         .post('/api/v1/sessions')
         .send({
-          "email":"my_email@example.com", 
+          "email":"another_email@example.com", 
           "password":"password", 
         })
         .then(response => {
