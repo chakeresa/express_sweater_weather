@@ -40,7 +40,31 @@ describe('api', () => {
       })
     });
 
-    test('user doesnt exist', () => {
+    test('wrong password', () => {
+      let email = "blah@example.com"
+      let password = "password"
+      const apiKey = security.randomString()
+      User.create({
+        email: email,
+        passwordDigest: security.hashedPassword(password),
+        apiKey: apiKey
+      })
+      .then (user => {
+        return request(app)
+          .post('/api/v1/sessions')
+          .send({
+            "email":email, 
+            "password":"wrongpassword"
+          })
+      })
+      .then (response => {
+        expect(response.statusCode).toBe(400)
+        expect(Object.keys(response.body)).toContain('error')
+        expect(response.body.error).toEqual("Invalid username or password")
+      })
+    });
+
+    test("user doesn't exist", () => {
       return request(app)
         .post('/api/v1/sessions')
         .send({
@@ -53,19 +77,5 @@ describe('api', () => {
           expect(response.body.error).toEqual("Invalid username or password")
         })
     });
-
-    // test('missing password', () => {
-    //   return request(app)
-    //     .post('/api/v1/sessions')
-    //     .send({
-    //       "email":"my_email@example.com", 
-    //       "password_confirmation":"password", 
-    //     })
-    //     .then(response => {
-    //       expect(response.statusCode).toBe(400)
-    //       expect(Object.keys(response.body)).toContain('error')
-    //       expect(response.body.error).toEqual("Passwords don't match")
-    //     })
-    // });
   });
 });
