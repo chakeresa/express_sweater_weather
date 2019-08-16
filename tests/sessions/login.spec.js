@@ -19,7 +19,7 @@ describe('api', () => {
     test('returns an api_key', () => {
       let email = "my_email@example.com"
       let password = "password"
-      User.create({
+      return User.create({
         email: email,
         passwordDigest: security.hashedPassword(password),
         apiKey: security.randomString()
@@ -34,12 +34,9 @@ describe('api', () => {
           })
         })
         .then(response => {
-          expect(response.statusCode).toBe(200)
-          expect(Object.keys(response.body)).toContain('api_key')
-          expect(response.body.api_key).toEqual(userCreated.api_key)
-        })
-        .catch(error => {
-          console.log(error);
+          expect(response.statusCode).toBe(200);
+          expect(Object.keys(response.body)).toContain('api_key');
+          expect(response.body.api_key).toEqual(userCreated.api_key);
         })
     });
 
