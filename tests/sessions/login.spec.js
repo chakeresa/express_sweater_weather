@@ -25,7 +25,6 @@ describe('api', () => {
         apiKey: security.randomString()
       })
         .then(user => {
-          var userCreated = user;
           return request(app)
           .post('/api/v1/sessions')
           .send({
@@ -36,24 +35,23 @@ describe('api', () => {
         .then(response => {
           expect(response.statusCode).toBe(200);
           expect(Object.keys(response.body)).toContain('api_key');
-          expect(response.body.api_key).toEqual(userCreated.api_key);
+          expect(response.body.api_key).toEqual(user.api_key);
         })
     });
 
-    // test('mismatched password', () => {
-    //   return request(app)
-    //     .post('/api/v1/sessions')
-    //     .send({
-    //       "email":"my_email@example.com", 
-    //       "password":"password", 
-    //       "password_confirmation":"otherpassword", 
-    //     })
-    //     .then(response => {
-    //       expect(response.statusCode).toBe(400)
-    //       expect(Object.keys(response.body)).toContain('error')
-    //       expect(response.body.error).toEqual("Passwords don't match")
-    //     })
-    // });
+    test('user doesnt exist', () => {
+      return request(app)
+        .post('/api/v1/sessions')
+        .send({
+          "email":"my_email@example.com", 
+          "password":"password", 
+        })
+        .then(response => {
+          expect(response.statusCode).toBe(400)
+          expect(Object.keys(response.body)).toContain('error')
+          expect(response.body.error).toEqual("Invalid username or password")
+        })
+    });
 
     // test('missing password', () => {
     //   return request(app)

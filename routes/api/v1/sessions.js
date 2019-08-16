@@ -11,20 +11,14 @@ router.post("/", function (req, res, next) {
     where: { email: req.body.email } 
   }).then(user => {
     if (user) {
-      bcrypt.compareSync(passwordEntered, user.apiKey)
-        .then(authenticated => {
-          if (authenticated) {
-            res.setHeader("Content-Type", "application/json");
-            res.status(201).send(JSON.stringify({ api_key: user.apiKey }));
-          } else {
-            res.setHeader("Content-Type", "application/json");
-            res.status(400).send(JSON.stringify({ error: "Invalid username or password" }));
-          }
-        })
-        .catch(error => {
-          res.setHeader("Content-Type", "application/json");
-          res.status(500).send({ error });
-        });
+      authenticated = bcrypt.compareSync(passwordEntered, user.passwordDigest);
+      if (authenticated) {
+        res.setHeader("Content-Type", "application/json");
+        res.status(200).send(JSON.stringify({ api_key: user.apiKey }));
+      } else {
+        res.setHeader("Content-Type", "application/json");
+        res.status(400).send(JSON.stringify({ error: "Invalid username or password" }));
+      }
     } else {
       res.setHeader("Content-Type", "application/json");
       res.status(400).send(JSON.stringify({ error: "Invalid username or password" }));
