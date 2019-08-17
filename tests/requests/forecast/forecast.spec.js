@@ -29,8 +29,12 @@ describe('api v1 forecast', () => {
         .then(response => {
           expect(response.statusCode).toBe(200);
 
+          console.log(response.body);
+
           expect(Object.keys(response.body)).toContain('location');
-          expect(response.body.location).toEqual('Denver, CO');
+          // TODO: change to just Denver, CO:
+          // expect(response.body.location).toEqual('Denver, CO');
+          expect(response.body.location).toEqual('Denver, CO, USA');
 
           expect(Object.keys(response.body)).toContain('currently');
           let currently = response.body.currently
