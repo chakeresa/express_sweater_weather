@@ -1,6 +1,5 @@
 var request = require("supertest");
 var app = require('../../../app');
-var User = require('../../../models').User;
 var cleanup = require('../../helper/testCleanup');
 
 describe('Test the root path', () => {
