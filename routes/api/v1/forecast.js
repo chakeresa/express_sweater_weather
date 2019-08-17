@@ -19,6 +19,13 @@ function handleForecastResult(forecastResponse, res) {
   }));
 }
 
+function initDarkSkyService(firstGeocodingResult) {
+  let latLngObj = firstGeocodingResult.geometry.location;
+  let lat = latLngObj.lat;
+  let long = latLngObj.lng;
+  return new DarkSkyApiService(lat, long);
+}
+
 /*GET forecast for a city*/
 router.get("/", function (req, res, next) {
   let apiKey = req.body.api_key;
@@ -34,12 +41,9 @@ router.get("/", function (req, res, next) {
         let googleService = new GoogleApiService(req.query.location);
         return googleService.geocodingResults()
           .then(response => {
-            let result = response.results[0];
-            formattedLocation = result.formatted_address;
-            let latLngObj = result.geometry.location;
-            let lat = latLngObj.lat;
-            let long = latLngObj.lng;
-            let darkSkyService = new DarkSkyApiService(lat, long);
+            let firstGeocodingResult = response.results[0];
+            formattedLocation = firstGeocodingResult.formatted_address;
+            let darkSkyService = initDarkSkyService(firstGeocodingResult)
             return darkSkyService.forecastResults()
               .then(forecastResponse => handleForecastResult(forecastResponse, res))
           })
