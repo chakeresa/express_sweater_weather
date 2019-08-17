@@ -10,6 +10,10 @@ class GoogleApiService {
   }
 
   geocodingResults() {
+    return this.makeGetRequest()
+  }
+
+  makeGetRequest() {
     var options = {
       uri: this.domain() + '/maps/api/geocode/json',
       qs: {
@@ -22,17 +26,20 @@ class GoogleApiService {
     let response;
 
     rp(options)
-      .then(function (res) {
-        // TODO: fix -- not hitting
-        console.log(res);
-        response = res;
+      .then(body => {
+        // body.results.formatted_address = "Denver, CO, USA"
+        // body.results.geometry.location.lat = 39.7392358
+        // body.results.geometry.location.lng = -104.990251
+        console.log(body);
+        response = body;
+        return body;
+        // TODO: fix -- not exporting as return value of geocodingResults
       })
-      .catch(function (err) {
-        // TODO: fix -- not hitting
+      .catch(err => {
         console.log('API call failed')
       });
 
-    return response;
+    // return response;
 
     // uri_path = '/maps/api/geocode/json'
     // Rails.logger.debug "Making Google geocoding API call (#{@location_string})"
