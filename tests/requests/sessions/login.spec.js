@@ -1,8 +1,8 @@
 var shell = require('shelljs');
 var request = require("supertest");
-var app = require('../../app');
-var User = require('../../models').User;
-var security = require('../../util/security');
+var app = require('../../../app');
+var User = require('../../../models').User;
+var security = require('../../../util/security');
 
 describe('api v1 sessions', () => {
   beforeAll(() => {
