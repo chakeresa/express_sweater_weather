@@ -25,9 +25,10 @@ describe('api v1 users', () => {
         "password_confirmation":"password"
       })
       .then(response => {
-        expect(response.statusCode).toBe(201)
-        expect(Object.keys(response.body)).toContain('api_key')
-        expect(response.body.api_key).toEqual(expect.anything())
+        expect(response.statusCode).toBe(201);
+        
+        expect(Object.keys(response.body)).toContain('api_key');
+        expect(response.body.api_key).toEqual(expect.anything());
       })
     });
 
@@ -40,9 +41,10 @@ describe('api v1 users', () => {
           "password_confirmation":"otherpassword"
         })
         .then(response => {
-          expect(response.statusCode).toBe(400)
-          expect(Object.keys(response.body)).toContain('error')
-          expect(response.body.error).toEqual("Passwords don't match")
+          expect(response.statusCode).toBe(400);
+
+          expect(Object.keys(response.body)).toContain('error');
+          expect(response.body.error).toEqual("Passwords don't match");
         })
     });
 
@@ -54,9 +56,10 @@ describe('api v1 users', () => {
           "password_confirmation":"password"
         })
         .then(response => {
-          expect(response.statusCode).toBe(400)
-          expect(Object.keys(response.body)).toContain('error')
-          expect(response.body.error).toEqual("Passwords don't match")
+          expect(response.statusCode).toBe(400);
+
+          expect(Object.keys(response.body)).toContain('error');
+          expect(response.body.error).toEqual("Passwords don't match");
         })
     });
   });
