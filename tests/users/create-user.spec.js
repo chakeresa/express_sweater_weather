@@ -10,7 +10,7 @@ describe('Test the root path', () => {
   });
 });
 
-describe('api', () => {
+describe('api v1 users', () => {
   beforeAll(() => {
     shell.exec('npx sequelize db:create')
   });
@@ -22,19 +22,19 @@ describe('api', () => {
   });
 
   describe('Test the registration path', () => {
-      test('returns an api_key', () => {
-        return request(app)
-        .post('/api/v1/users')
-        .send({
-          "email":"my_email@example.com", 
-          "password":"password", 
-          "password_confirmation":"password", 
-        })
-        .then(response => {
-          expect(response.statusCode).toBe(201)
-          expect(Object.keys(response.body)).toContain('api_key')
-          expect(response.body.api_key).toEqual(expect.anything())
-        })
+    test('returns an api_key', () => {
+      return request(app)
+      .post('/api/v1/users')
+      .send({
+        "email":"my_email@example.com", 
+        "password":"password", 
+        "password_confirmation":"password"
+      })
+      .then(response => {
+        expect(response.statusCode).toBe(201)
+        expect(Object.keys(response.body)).toContain('api_key')
+        expect(response.body.api_key).toEqual(expect.anything())
+      })
     });
 
     test('mismatched password', () => {
@@ -43,7 +43,7 @@ describe('api', () => {
         .send({
           "email":"my_email@example.com", 
           "password":"password", 
-          "password_confirmation":"otherpassword", 
+          "password_confirmation":"otherpassword"
         })
         .then(response => {
           expect(response.statusCode).toBe(400)
@@ -57,7 +57,7 @@ describe('api', () => {
         .post('/api/v1/users')
         .send({
           "email":"my_email@example.com", 
-          "password_confirmation":"password", 
+          "password_confirmation":"password"
         })
         .then(response => {
           expect(response.statusCode).toBe(400)

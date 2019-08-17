@@ -4,7 +4,7 @@ var app = require('../../app');
 var User = require('../../models').User;
 var security = require('../../util/security');
 
-describe('api', () => {
+describe('api v1 sessions', () => {
   beforeAll(() => {
     shell.exec('npx sequelize db:create')
   });
@@ -20,7 +20,7 @@ describe('api', () => {
       let email = "email1@example.com"
       let password = "password"
       const apiKey = security.randomString()
-      User.create({
+      return User.create({
         email: email,
         passwordDigest: security.hashedPassword(password),
         apiKey: apiKey
@@ -44,7 +44,7 @@ describe('api', () => {
       let email = "email2@example.com"
       let password = "password"
       const apiKey = security.randomString()
-      User.create({
+      return User.create({
         email: email,
         passwordDigest: security.hashedPassword(password),
         apiKey: apiKey
@@ -68,7 +68,7 @@ describe('api', () => {
       let email = "email3@example.com"
       let password = "password"
       const apiKey = security.randomString()
-      User.create({
+      return User.create({
         email: email,
         passwordDigest: security.hashedPassword(password),
         apiKey: apiKey
@@ -91,7 +91,7 @@ describe('api', () => {
       let email = "email4@example.com"
       let password = "password"
       const apiKey = security.randomString()
-      User.create({
+      return User.create({
         email: email,
         passwordDigest: security.hashedPassword(password),
         apiKey: apiKey
