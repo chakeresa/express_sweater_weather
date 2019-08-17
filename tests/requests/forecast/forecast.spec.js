@@ -104,6 +104,7 @@ describe('api v1 forecast', () => {
         })
     });
 
+    // TODO: add test for no API key sent
     test('no matching API key', () => {
       let email = "email111@example.com"
       let password = "password"
@@ -122,6 +123,7 @@ describe('api v1 forecast', () => {
         })
         .then(response => {
           expect(response.statusCode).toBe(401);
+          
           expect(Object.keys(response.body)).toContain('error')
           expect(response.body.error).toEqual("Invalid API key")
         })
