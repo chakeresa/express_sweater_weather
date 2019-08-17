@@ -1,6 +1,6 @@
-var shell = require('shelljs');
 var request = require("supertest");
-var app = require('../../app');
+var app = require('../../../app');
+var cleanup = require('../../helper/testCleanup');
 
 describe('Test the root path', () => {
   test('It should respond to the GET method', () => {
@@ -10,31 +10,25 @@ describe('Test the root path', () => {
   });
 });
 
-describe('api', () => {
-  beforeAll(() => {
-    shell.exec('npx sequelize db:create')
-  });
+describe('api v1 users', () => {
   beforeEach(() => {
-    shell.exec('npx sequelize db:migrate')
-  });
-  afterEach(() => {
-    shell.exec('npx sequelize db:migrate:undo:all')
+    cleanup()
   });
 
   describe('Test the registration path', () => {
-      test('returns an api_key', () => {
-        return request(app)
-        .post('/api/v1/users')
-        .send({
-          "email":"my_email@example.com", 
-          "password":"password", 
-          "password_confirmation":"password", 
-        })
-        .then(response => {
-          expect(response.statusCode).toBe(201)
-          expect(Object.keys(response.body)).toContain('api_key')
-          expect(response.body.api_key).toEqual(expect.anything())
-        })
+    test('returns an api_key', () => {
+      return request(app)
+      .post('/api/v1/users')
+      .send({
+        "email":"my_email@example.com", 
+        "password":"password", 
+        "password_confirmation":"password"
+      })
+      .then(response => {
+        expect(response.statusCode).toBe(201)
+        expect(Object.keys(response.body)).toContain('api_key')
+        expect(response.body.api_key).toEqual(expect.anything())
+      })
     });
 
     test('mismatched password', () => {
@@ -43,7 +37,7 @@ describe('api', () => {
         .send({
           "email":"my_email@example.com", 
           "password":"password", 
-          "password_confirmation":"otherpassword", 
+          "password_confirmation":"otherpassword"
         })
         .then(response => {
           expect(response.statusCode).toBe(400)
@@ -57,7 +51,7 @@ describe('api', () => {
         .post('/api/v1/users')
         .send({
           "email":"my_email@example.com", 
-          "password_confirmation":"password", 
+          "password_confirmation":"password"
         })
         .then(response => {
           expect(response.statusCode).toBe(400)

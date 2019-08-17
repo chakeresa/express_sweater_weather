@@ -10,10 +10,13 @@
     "bcrypt": "^3.0.6",
     "cookie-parser": "~1.4.4",
     "debug": "~2.6.9",
+    "dotenv": "^8.0.0",
     "express": "~4.16.1",
     "jest": "^24.9.0",
     "morgan": "~1.9.1",
     "pg": "^7.12.1",
+    "request": "^2.88.0",
+    "request-promise": "^4.2.4",
     "sequelize": "^5.14.0",
     "sequelize-cli": "^5.5.0"
   },
@@ -21,5 +24,10 @@
     "babel-jest": "^24.8.0",
     "shelljs": "^0.8.3",
     "supertest": "^4.0.2"
+  },
+  "jest": {
+    "maxConcurrency": 1,
+    "globalSetup": "./tests/helper/testGlobalSetup.js",
+    "globalTeardown": "./tests/helper/testGlobalTeardown.js"
   }
 }

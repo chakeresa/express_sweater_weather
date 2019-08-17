@@ -1,18 +1,12 @@
-var shell = require('shelljs');
 var request = require("supertest");
-var app = require('../../app');
-var User = require('../../models').User;
-var security = require('../../util/security');
+var app = require('../../../app');
+var User = require('../../../models').User;
+var security = require('../../../util/security');
+var cleanup = require('../../helper/testCleanup');
 
-describe('api', () => {
-  beforeAll(() => {
-    shell.exec('npx sequelize db:create')
-  });
+describe('api v1 sessions', () => {
   beforeEach(() => {
-    shell.exec('npx sequelize db:migrate')
-  });
-  afterEach(() => {
-    shell.exec('npx sequelize db:migrate:undo:all')
+    cleanup()
   });
 
   describe('Test the login path', () => {
@@ -20,7 +14,7 @@ describe('api', () => {
       let email = "email1@example.com"
       let password = "password"
       const apiKey = security.randomString()
-      User.create({
+      return User.create({
         email: email,
         passwordDigest: security.hashedPassword(password),
         apiKey: apiKey
@@ -44,7 +38,7 @@ describe('api', () => {
       let email = "email2@example.com"
       let password = "password"
       const apiKey = security.randomString()
-      User.create({
+      return User.create({
         email: email,
         passwordDigest: security.hashedPassword(password),
         apiKey: apiKey
@@ -68,7 +62,7 @@ describe('api', () => {
       let email = "email3@example.com"
       let password = "password"
       const apiKey = security.randomString()
-      User.create({
+      return User.create({
         email: email,
         passwordDigest: security.hashedPassword(password),
         apiKey: apiKey
@@ -91,7 +85,7 @@ describe('api', () => {
       let email = "email4@example.com"
       let password = "password"
       const apiKey = security.randomString()
-      User.create({
+      return User.create({
         email: email,
         passwordDigest: security.hashedPassword(password),
         apiKey: apiKey
@@ -115,7 +109,7 @@ describe('api', () => {
         .post('/api/v1/sessions')
         .send({
           "email":"email5@example.com", 
-          "password":"password", 
+          "password":"password"
         })
         .then(response => {
           expect(response.statusCode).toBe(400)
