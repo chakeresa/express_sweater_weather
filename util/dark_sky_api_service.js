@@ -6,19 +6,19 @@ class DarkSkyApiService {
     this.long = long;
   }
 
-  // geocodingResults() {
-  //   let domain = 'https://maps.googleapis.com'
-  //   var options = {
-  //     uri: domain + '/maps/api/geocode/json',
-  //     qs: {
-  //       key: process.env.GOOGLE_MAPS_API_KEY,
-  //       address: this.locationStr
-  //     },
-  //     json: true
-  //   };
+  forecastResults() {
+    let domain = 'https://api.darksky.net';
+    let uriPath = `/forecast/${process.env.DARK_SKY_API_KEY}/${this.lat},${this.long}`;
+    var options = {
+      uri: domain + uriPath,
+      qs: {
+        exclude: 'minutely'
+      },
+      json: true
+    };
 
-  //   return rp(options)
-  // }
+    return rp(options)
+  }
 }
 
 module.exports = {
