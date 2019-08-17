@@ -10,6 +10,15 @@ function unauthorized(res) {
   res.status(401).send(JSON.stringify({ error: "Invalid API key" }));
 }
 
+function handleForecastResult(forecastResponse, res) {
+  res.status(200).send(JSON.stringify({
+    location: formattedLocation,
+    currently: forecastResponse.currently,
+    hourly: forecastResponse.hourly,
+    daily: forecastResponse.daily
+  }));
+}
+
 /*GET forecast for a city*/
 router.get("/", function (req, res, next) {
   let apiKey = req.body.api_key;
@@ -32,14 +41,7 @@ router.get("/", function (req, res, next) {
             let long = latLngObj.lng;
             let darkSkyService = new DarkSkyApiService(lat, long);
             return darkSkyService.forecastResults()
-            .then(forecastResponse => {
-                res.status(200).send(JSON.stringify({
-                  location: formattedLocation,
-                  currently: forecastResponse.currently,
-                  hourly: forecastResponse.hourly,
-                  daily: forecastResponse.daily
-                }));
-              })
+              .then(forecastResponse => handleForecastResult(forecastResponse, res))
           })
           .catch(error => {
             res.status(500).send(JSON.stringify(error));
