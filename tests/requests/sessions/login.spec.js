@@ -5,15 +5,21 @@ var User = require('../../../models').User;
 var security = require('../../../util/security');
 
 describe('api v1 sessions', () => {
+  async function cleanup() {
+    await User.destroy({ where: {} })
+  }
+
   beforeAll(() => {
     shell.exec('npx sequelize db:create')
-  });
-  beforeEach(() => {
     shell.exec('npx sequelize db:migrate')
   });
-  afterEach(() => {
-    shell.exec('npx sequelize db:migrate:undo:all')
+  beforeEach(() => {
+    cleanup()
+    // shell.exec('npx sequelize db:migrate')
   });
+  // afterEach(() => {
+  //   shell.exec('npx sequelize db:migrate:undo:all')
+  // });
 
   describe('Test the login path', () => {
     test('returns an api_key', () => {
@@ -111,11 +117,12 @@ describe('api v1 sessions', () => {
     });
 
     test("user doesn't exist", () => {
+      // TODO: timing out
       return request(app)
         .post('/api/v1/sessions')
         .send({
           "email":"email5@example.com", 
-          "password":"password", 
+          "password":"password"
         })
         .then(response => {
           expect(response.statusCode).toBe(400)

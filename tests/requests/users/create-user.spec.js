@@ -1,6 +1,8 @@
 var shell = require('shelljs');
 var request = require("supertest");
 var app = require('../../../app');
+var User = require('../../../models').User;
+
 
 describe('Test the root path', () => {
   test('It should respond to the GET method', () => {
@@ -11,15 +13,20 @@ describe('Test the root path', () => {
 });
 
 describe('api v1 users', () => {
+  async function cleanup() {
+    await User.destroy({ where: {} })
+  }
   beforeAll(() => {
     shell.exec('npx sequelize db:create')
-  });
-  beforeEach(() => {
     shell.exec('npx sequelize db:migrate')
   });
-  afterEach(() => {
-    shell.exec('npx sequelize db:migrate:undo:all')
+  beforeEach(() => {
+    cleanup()
+  //   shell.exec('npx sequelize db:migrate')
   });
+  // afterEach(() => {
+  //   shell.exec('npx sequelize db:migrate:undo:all')
+  // });
 
   describe('Test the registration path', () => {
     test('returns an api_key', () => {

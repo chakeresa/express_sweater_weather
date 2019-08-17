@@ -5,15 +5,21 @@ var User = require('../../../models').User;
 var security = require('../../../util/security');
 
 describe('api v1 forecast', () => {
+  async function cleanup() {
+    await User.destroy({ where: {} })
+  }
+
   beforeAll(() => {
     shell.exec('npx sequelize db:create')
-  });
-  beforeEach(() => {
     shell.exec('npx sequelize db:migrate')
   });
-  afterEach(() => {
-    shell.exec('npx sequelize db:migrate:undo:all')
+  beforeEach(() => {
+    cleanup()
+    // shell.exec('npx sequelize db:migrate')
   });
+  // afterEach(() => {
+  //   shell.exec('npx sequelize db:migrate:undo:all')
+  // });
 
   describe('Test the forecast path', () => {
     test('returns a forecast', () => {
