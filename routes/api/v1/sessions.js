@@ -30,6 +30,8 @@ router.post("/", function (req, res, next) {
       } else {
         unauthorized();
       }
+    }).catch(err => {
+      res.status(500).send(JSON.stringify({ error: err }));
     })
   }
 });
