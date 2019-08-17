@@ -37,5 +37,7 @@ describe('api v1 favorites POST', () => {
           expect(response.body).toEqual(expected);
         });
     });
+    // TODO: test for bad API key
+    // TODO: test for missing API key
   });
 });
