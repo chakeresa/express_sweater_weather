@@ -29,8 +29,6 @@ describe('api v1 forecast', () => {
         .then(response => {
           expect(response.statusCode).toBe(200);
 
-          console.log(response.body);
-
           expect(Object.keys(response.body)).toContain('location');
           // TODO: change to just Denver, CO:
           // expect(response.body.location).toEqual('Denver, CO');
@@ -56,8 +54,8 @@ describe('api v1 forecast', () => {
           expect(hourly.summary).toEqual(expect.any(String));
           expect(hourly.icon).toEqual(expect.any(String));
           expect(Object.keys(hourly)).toContain('data');
-          expect(hourly.data.length).toEqual(8);
-          let firstHour = hourly.data.first;
+          expect(hourly.data.length).toBeGreaterThanOrEqual(8);
+          let firstHour = hourly.data[0];
           expect(firstHour.time).toEqual(expect.any(Number));
           expect(firstHour.summary).toEqual(expect.any(String));
           expect(firstHour.icon).toEqual(expect.any(String));
@@ -77,8 +75,8 @@ describe('api v1 forecast', () => {
           expect(daily.summary).toEqual(expect.any(String));
           expect(daily.icon).toEqual(expect.any(String));
           expect(Object.keys(daily)).toContain('data');
-          expect(daily.data.length).toEqual(7);
-          let firstDay = daily.data.first;
+          expect(daily.data.length).toBeGreaterThanOrEqual(7);
+          let firstDay = daily.data[0];
           expect(firstDay.time).toEqual(expect.any(Number));
           expect(firstDay.summary).toEqual(expect.any(String));
           expect(firstDay.icon).toEqual(expect.any(String));
