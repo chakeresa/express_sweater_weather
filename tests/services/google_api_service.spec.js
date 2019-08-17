@@ -11,4 +11,13 @@ describe('GoogleApiService', () => {
       expect(service.locationStr).toEqual(locationStr);
     });
   });
+
+  describe('#geocodingResults', () => {
+    test('returns the lat & long', () => {
+      let locationStr = 'denver,co'
+      let service = new GoogleApiService(locationStr);
+
+      expect(service.geocodingResults()).toEqual("TODO: something");
+    });
+  });
 });

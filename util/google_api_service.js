@@ -1,9 +1,39 @@
+var rp = require('request-promise');
+
 class GoogleApiService {
   constructor(locationStr) {
     this.locationStr = locationStr;
   }
 
+  domain() {
+    return 'https://maps.googleapis.com';
+  }
+
   geocodingResults() {
+    var options = {
+      uri: this.domain() + '/maps/api/geocode/json',
+      qs: {
+        key: process.env.GOOGLE_MAPS_API_KEY,
+        address: this.locationStr
+      },
+      json: true
+    };
+
+    let response;
+
+    rp(options)
+      .then(function (res) {
+        // TODO: fix -- not hitting
+        console.log(res);
+        response = res;
+      })
+      .catch(function (err) {
+        // TODO: fix -- not hitting
+        console.log('API call failed')
+      });
+
+    return response;
+
     // uri_path = '/maps/api/geocode/json'
     // Rails.logger.debug "Making Google geocoding API call (#{@location_string})"
     // location_hash = fetch_json_data(uri_path, address: @location_string)
