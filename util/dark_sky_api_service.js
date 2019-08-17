@@ -1,9 +1,10 @@
 var rp = require('request-promise');
 
 class DarkSkyApiService {
-  // constructor(locationStr) {
-  //   this.locationStr = locationStr;
-  // }
+  constructor(lat, long) {
+    this.lat = lat;
+    this.long = long;
+  }
 
   // geocodingResults() {
   //   let domain = 'https://maps.googleapis.com'

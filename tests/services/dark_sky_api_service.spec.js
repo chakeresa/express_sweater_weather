@@ -4,12 +4,14 @@ var DarkSkyApiService = require('../../util/dark_sky_api_service').DarkSkyApiSer
 
 describe('DarkSkyApiService', () => {
   describe('#constructor', () => {
-    // test('inits with locationStr', () => {
-    //   let locationStr = 'denver,co'
-    //   let service = new DarkSkyApiService(locationStr);
+    test('inits with lat & long', () => {
+      let lat = 39.7392358
+      let long = -104.990251
+      let service = new DarkSkyApiService(lat, long);
 
-    //   expect(service.locationStr).toEqual(locationStr);
-    // });
+      expect(service.lat).toEqual(lat);
+      expect(service.long).toEqual(long);
+    });
   });
 
   // describe('#geocodingResults', () => {
