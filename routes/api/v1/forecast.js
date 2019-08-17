@@ -5,17 +5,17 @@ var GoogleApiService = require('../../../util/google_api_service').GoogleApiServ
 var DarkSkyApiService = require('../../../util/dark_sky_api_service').DarkSkyApiService;
 var formattedLocation
 
+function unauthorized(res) {
+  res.setHeader("Content-Type", "application/json");
+  res.status(401).send(JSON.stringify({ error: "Invalid API key" }));
+}
+
 /*GET forecast for a city*/
 router.get("/", function (req, res, next) {
   let apiKey = req.body.api_key;
   
-  function unauthorized() {
-    res.setHeader("Content-Type", "application/json");
-    res.status(401).send(JSON.stringify({ error: "Invalid API key" }));
-  }
-  
   if (!apiKey) {
-    unauthorized();
+    unauthorized(res);
   } else {
     User.findOne({
       where: { apiKey: apiKey }
@@ -45,7 +45,7 @@ router.get("/", function (req, res, next) {
             res.status(500).send(JSON.stringify(error));
           })
       } else {
-        unauthorized();
+        unauthorized(res);
       }
     })
   }
