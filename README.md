@@ -33,3 +33,25 @@ Response:
   "api_key": "6kzqk71x8vezd6odo5rp",
 }
 ```
+
+### User login
+Request:
+```
+POST /api/v1/sessions
+Content-Type: application/json
+Accept: application/json
+
+{
+  "email": "my_email@example.com",
+  "password": "password"
+}
+```
+Response:
+```
+status: 200
+body:
+
+{
+  "api_key": "6kzqk71x8vezd6odo5rp"
+}
+```
