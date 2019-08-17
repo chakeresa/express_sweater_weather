@@ -1,7 +1,7 @@
 var request = require("supertest");
 var app = require('../../../app');
 var User = require('../../../models').User;
-
+var cleanup = require('../../helper/testCleanup');
 
 describe('Test the root path', () => {
   test('It should respond to the GET method', () => {
@@ -12,9 +12,6 @@ describe('Test the root path', () => {
 });
 
 describe('api v1 users', () => {
-  async function cleanup() {
-    await User.destroy({ where: {} })
-  }
   beforeEach(() => {
     cleanup()
   });

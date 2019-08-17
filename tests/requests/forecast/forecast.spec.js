@@ -2,12 +2,9 @@ var request = require("supertest");
 var app = require('../../../app');
 var User = require('../../../models').User;
 var security = require('../../../util/security');
+var cleanup = require('../../helper/testCleanup');
 
 describe('api v1 forecast', () => {
-  async function cleanup() {
-    await User.destroy({ where: {} })
-  }
-
   beforeEach(() => {
     cleanup()
   });
