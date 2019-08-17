@@ -35,7 +35,8 @@ describe('api v1 forecast', () => {
           expect(response.body.location).toEqual('Denver, CO, USA');
 
           expect(Object.keys(response.body)).toContain('currently');
-          let currently = response.body.currently
+          let currently = response.body.currently;
+          // TODO: currently should not contain all keys from the original API request (such as apparentTemperature, dewPoint, or ozone)
           expect(currently.summary).toEqual(expect.any(String));
           expect(currently.icon).toEqual(expect.any(String));
           expect(currently.precipIntensity).toEqual(expect.any(Number));
@@ -50,7 +51,8 @@ describe('api v1 forecast', () => {
           expect(currently.visibility).toEqual(expect.any(Number));
 
           expect(Object.keys(response.body)).toContain('hourly');
-          let hourly = response.body.hourly
+          let hourly = response.body.hourly;
+          // TODO: hourly should not contain all keys from the original API request (such as apparentTemperature, dewPoint, or ozone)
           expect(hourly.summary).toEqual(expect.any(String));
           expect(hourly.icon).toEqual(expect.any(String));
           expect(Object.keys(hourly)).toContain('data');
@@ -71,7 +73,8 @@ describe('api v1 forecast', () => {
           expect(firstHour.visibility).toEqual(expect.any(Number));
 
           expect(Object.keys(response.body)).toContain('daily');
-          let daily = response.body.daily
+          let daily = response.body.daily;
+          // TODO: daily should not contain all keys from the original API request (such as moonPhase, temperatureHighTime, temperatureLowTime, apparentTemperatureHigh/HighTime/Low/LowTime, dewPoint, windGustTime, windBearing, uvIndex, uvIndexTime, ozone, temperatureMinTime/MaxTime, or apparentTemperatureMin/MinTime/Max/MaxTime)
           expect(daily.summary).toEqual(expect.any(String));
           expect(daily.icon).toEqual(expect.any(String));
           expect(Object.keys(daily)).toContain('data');
