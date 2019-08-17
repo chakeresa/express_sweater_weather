@@ -10,6 +10,7 @@ describe('api v1 forecast', () => {
   }
 
   beforeAll(() => {
+    shell.exec('npx sequelize db:drop')
     shell.exec('npx sequelize db:create')
     shell.exec('npx sequelize db:migrate')
   });

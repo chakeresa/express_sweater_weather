@@ -10,6 +10,7 @@ describe('api v1 sessions', () => {
   }
 
   beforeAll(() => {
+    shell.exec('npx sequelize db:drop')
     shell.exec('npx sequelize db:create')
     shell.exec('npx sequelize db:migrate')
   });
@@ -117,7 +118,6 @@ describe('api v1 sessions', () => {
     });
 
     test("user doesn't exist", () => {
-      // TODO: timing out
       return request(app)
         .post('/api/v1/sessions')
         .send({
