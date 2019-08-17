@@ -50,7 +50,6 @@ Response:
 ```
 status: 200
 body:
-
 {
   "api_key": "6kzqk71x8vezd6odo5rp"
 }
@@ -139,5 +138,26 @@ body:
       },
     ]
   }
+}
+```
+
+### Adding a Favorite City (Denver, for example)
+Request:
+```
+POST /api/v1/favorites
+Content-Type: application/json
+Accept: application/json
+
+{
+  "location": <CITY AND STATE, FOR EXAMPLE "Denver, CO">,
+  api_key": "6kzqk71x8vezd6odo5rp"
+}
+```
+Response:
+```
+status: 200
+body:
+{
+  "message": "Denver, CO has been added to your favorites"
 }
 ```

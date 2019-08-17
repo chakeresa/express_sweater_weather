@@ -105,7 +105,7 @@ describe('api v1 forecast', () => {
     });
 
     test('no matching API key', () => {
-      let email = "email111@example.com"
+      let email = "email12@example.com"
       let password = "password"
       const apiKey = security.randomString()
       return User.create({
@@ -122,8 +122,30 @@ describe('api v1 forecast', () => {
         })
         .then(response => {
           expect(response.statusCode).toBe(401);
-          expect(Object.keys(response.body)).toContain('error')
-          expect(response.body.error).toEqual("Invalid API key")
+          
+          expect(Object.keys(response.body)).toContain('error');
+          expect(response.body.error).toEqual("Invalid API key");
+        })
+    });
+
+    test('no API key sent', () => {
+      let email = "email13@example.com"
+      let password = "password"
+      const apiKey = security.randomString()
+      return User.create({
+        email: email,
+        passwordDigest: security.hashedPassword(password),
+        apiKey: apiKey
+      })
+        .then(user => {
+          return request(app)
+            .get('/api/v1/forecast?location=denver,co')
+        })
+        .then(response => {
+          expect(response.statusCode).toBe(401);
+          
+          expect(Object.keys(response.body)).toContain('error');
+          expect(response.body.error).toEqual("Invalid API key");
         })
     });
   });
