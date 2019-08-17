@@ -17,7 +17,7 @@ describe('api', () => {
 
   describe('Test the login path', () => {
     test('returns an api_key', () => {
-      let email = "email@example.com"
+      let email = "email1@example.com"
       let password = "password"
       const apiKey = security.randomString()
       User.create({
@@ -41,7 +41,7 @@ describe('api', () => {
     });
 
     test('wrong password', () => {
-      let email = "blah@example.com"
+      let email = "email2@example.com"
       let password = "password"
       const apiKey = security.randomString()
       User.create({
@@ -64,11 +64,57 @@ describe('api', () => {
       })
     });
 
+    test('no email entered', () => {
+      let email = "email3@example.com"
+      let password = "password"
+      const apiKey = security.randomString()
+      User.create({
+        email: email,
+        passwordDigest: security.hashedPassword(password),
+        apiKey: apiKey
+      })
+      .then (user => {
+        return request(app)
+          .post('/api/v1/sessions')
+          .send({
+            "email":email
+          })
+      })
+      .then (response => {
+        expect(response.statusCode).toBe(400)
+        expect(Object.keys(response.body)).toContain('error')
+        expect(response.body.error).toEqual("Invalid username or password")
+      })
+    });
+
+    test('no password entered', () => {
+      let email = "email4@example.com"
+      let password = "password"
+      const apiKey = security.randomString()
+      User.create({
+        email: email,
+        passwordDigest: security.hashedPassword(password),
+        apiKey: apiKey
+      })
+      .then (user => {
+        return request(app)
+          .post('/api/v1/sessions')
+          .send({
+            "password":password
+          })
+      })
+      .then (response => {
+        expect(response.statusCode).toBe(400)
+        expect(Object.keys(response.body)).toContain('error')
+        expect(response.body.error).toEqual("Invalid username or password")
+      })
+    });
+
     test("user doesn't exist", () => {
       return request(app)
         .post('/api/v1/sessions')
         .send({
-          "email":"another_email@example.com", 
+          "email":"email5@example.com", 
           "password":"password", 
         })
         .then(response => {
