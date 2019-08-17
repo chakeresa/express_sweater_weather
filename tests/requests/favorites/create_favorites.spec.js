@@ -38,12 +38,13 @@ describe('api v1 favorites POST', () => {
           }
           expect(response.body).toEqual(expected);
 
-          return FavoriteLocation.count()
+          return FavoriteLocation.findOne()
         })
-        .then(count => {
-          expect(count).toEqual(1)
+        .then(favoriteLocation => {
+          expect(favoriteLocation.name).toEqual(locationString);
         });
     });
+
     // TODO: test for bad API key
     // TODO: test for missing API key
   });
