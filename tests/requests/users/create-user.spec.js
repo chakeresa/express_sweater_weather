@@ -1,4 +1,3 @@
-var shell = require('shelljs');
 var request = require("supertest");
 var app = require('../../../app');
 var User = require('../../../models').User;
@@ -16,18 +15,9 @@ describe('api v1 users', () => {
   async function cleanup() {
     await User.destroy({ where: {} })
   }
-  beforeAll(() => {
-    shell.exec('npx sequelize db:drop')
-    shell.exec('npx sequelize db:create')
-    shell.exec('npx sequelize db:migrate')
-  });
   beforeEach(() => {
     cleanup()
-  //   shell.exec('npx sequelize db:migrate')
   });
-  // afterEach(() => {
-  //   shell.exec('npx sequelize db:migrate:undo:all')
-  // });
 
   describe('Test the registration path', () => {
     test('returns an api_key', () => {
