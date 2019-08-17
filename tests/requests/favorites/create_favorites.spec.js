@@ -22,7 +22,7 @@ describe('api v1 favorites POST', () => {
       })
         .then(user => {
           return request(app)
-            .get('/api/v1/favorites')
+            .post('/api/v1/favorites')
             .send({
               'location': locationString,
               'api_key': apiKey
@@ -34,7 +34,7 @@ describe('api v1 favorites POST', () => {
           let expected = {
             message: 'Denver, CO has been added to your favorites'
           }
-          expect(response.body).toEql(expected);
+          expect(response.body).toEqual(expected);
         });
     });
   });

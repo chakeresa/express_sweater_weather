@@ -9,6 +9,7 @@ var usersRouter = require('./routes/users');
 var apiUsersRouter = require('./routes/api/v1/users');
 var apiSessionsRouter = require('./routes/api/v1/sessions');
 var apiForecastRouter = require('./routes/api/v1/forecast');
+var apiFavoritesRouter = require('./routes/api/v1/favorites');
 
 var app = express();
 
@@ -23,5 +24,6 @@ app.use('/users', usersRouter);
 app.use('/api/v1/users', apiUsersRouter);
 app.use('/api/v1/sessions', apiSessionsRouter);
 app.use('/api/v1/forecast', apiForecastRouter);
+app.use('/api/v1/favorites', apiFavoritesRouter);
 
 module.exports = app;
