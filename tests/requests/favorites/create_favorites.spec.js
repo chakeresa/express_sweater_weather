@@ -1,6 +1,7 @@
 var request = require("supertest");
 var app = require('../../../app');
 var User = require('../../../models').User;
+var FavoriteLocation = require('../../../models').FavoriteLocation;
 var security = require('../../../util/security');
 var cleanup = require('../../helper/testCleanup');
 
@@ -15,6 +16,7 @@ describe('api v1 favorites POST', () => {
       let password = 'password'
       let locationString = 'Denver, CO'
       const apiKey = security.randomString()
+
       return User.create({
         email: email,
         passwordDigest: security.hashedPassword(password),
@@ -35,6 +37,11 @@ describe('api v1 favorites POST', () => {
             message: 'Denver, CO has been added to your favorites'
           }
           expect(response.body).toEqual(expected);
+
+          return FavoriteLocation.count()
+        })
+        .then(count => {
+          expect(count).toEqual(1)
         });
     });
     // TODO: test for bad API key
