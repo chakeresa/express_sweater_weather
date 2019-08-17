@@ -45,7 +45,65 @@ describe('api v1 favorites POST', () => {
         });
     });
 
-    // TODO: test for bad API key
-    // TODO: test for missing API key
+    test('bad API key', () => {
+      let email = 'email1112@example.com'
+      let password = 'password'
+      let locationString = 'Denver, CO'
+      const apiKey = security.randomString()
+
+      return User.create({
+        email: email,
+        passwordDigest: security.hashedPassword(password),
+        apiKey: apiKey
+      })
+        .then(user => {
+          return request(app)
+            .post('/api/v1/favorites')
+            .send({
+              'location': locationString,
+              'api_key': "badAPIkey"
+            })
+        })
+        .then(response => {
+          expect(response.statusCode).toBe(401);
+
+          expect(response.body).toEqual({ error: "Invalid API key" });
+
+          return FavoriteLocation.count()
+        })
+        .then(count => {
+          expect(count).toEqual(0);
+        });
+    });
+
+    test('missing API key', () => {
+      let email = 'email1113@example.com'
+      let password = 'password'
+      let locationString = 'Denver, CO'
+      const apiKey = security.randomString()
+
+      return User.create({
+        email: email,
+        passwordDigest: security.hashedPassword(password),
+        apiKey: apiKey
+      })
+        .then(user => {
+          return request(app)
+            .post('/api/v1/favorites')
+            .send({
+              'location': locationString
+            })
+        })
+        .then(response => {
+          expect(response.statusCode).toBe(401);
+
+          expect(response.body).toEqual({ error: "Invalid API key" });
+
+          return FavoriteLocation.count()
+        })
+        .then(count => {
+          expect(count).toEqual(0);
+        });
+    });
   });
 });
