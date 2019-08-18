@@ -19,11 +19,7 @@ router.post("/", function (req, res, next) {
       .catch(error => {
         console.log(error);
         res.setHeader("Content-Type", "application/json");
-        if (error.name == SequelizeUniqueConstraintError) {
-          res.status(422).send({ error: 'Email has already been taken' })
-        } else {
-          res.status(500).send({ error });
-        }
+        res.status(422).send({ error: 'Email has already been taken' })
       });
   } else {
     res.setHeader("Content-Type", "application/json");
