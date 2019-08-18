@@ -69,7 +69,7 @@ describe('api v1 favorites DELETE', () => {
         })
         .then(favoriteLocation => {
           return request(app)
-            .post('/api/v1/favorites')
+            .del('/api/v1/favorites')
             .send({
               'location': locationString,
               'api_key': "badAPIkey"
@@ -87,34 +87,42 @@ describe('api v1 favorites DELETE', () => {
         });
     });
 
-    // test('missing API key', () => {
-    //   let email = 'email11113@example.com'
-    //   let password = 'password'
-    //   let locationString = 'Denver, CO'
-    //   const apiKey = security.randomString()
+    // TODO: test missing location string
 
-    //   return User.create({
-    //     email: email,
-    //     passwordDigest: security.hashedPassword(password),
-    //     apiKey: apiKey
-    //   })
-    //     .then(user => {
-    //       return request(app)
-    //         .post('/api/v1/favorites')
-    //         .send({
-    //           'location': locationString
-    //         })
-    //     })
-    //     .then(response => {
-    //       expect(response.statusCode).toBe(401);
+    test('missing API key', () => {
+      let email = 'email11113@example.com'
+      let password = 'password'
+      let locationString = 'Denver, CO'
+      const apiKey = security.randomString()
 
-    //       expect(response.body).toEqual({ error: "Invalid API key" });
+      return User.create({
+        email: email,
+        passwordDigest: security.hashedPassword(password),
+        apiKey: apiKey
+      })
+        .then(user => {
+          return FavoriteLocation.create({
+            UserId: user.id,
+            name: locationString
+          })
+        })
+        .then(favoriteLocation => {
+          return request(app)
+            .del('/api/v1/favorites')
+            .send({
+              'location': locationString
+            })
+        })
+        .then(response => {
+          expect(response.statusCode).toBe(401);
 
-    //       return FavoriteLocation.count()
-    //     })
-    //     .then(count => {
-    //       expect(count).toEqual(0);
-    //     });
-    // });
+          expect(response.body).toEqual({ error: "Invalid API key" });
+
+          return FavoriteLocation.count()
+        })
+        .then(count => {
+          expect(count).toEqual(1);
+        });
+    });
   });
 });
