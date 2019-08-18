@@ -20,7 +20,7 @@ Request:
 POST /api/v1/users
 Content-Type: application/json
 Accept: application/json
-
+body:
 {
   "email": "my_email@example.com",
   "password": "password"
@@ -29,6 +29,8 @@ Accept: application/json
 ```
 Response:
 ```
+status: 201
+body:
 {
   "api_key": "6kzqk71x8vezd6odo5rp",
 }
@@ -40,7 +42,7 @@ Request:
 POST /api/v1/sessions
 Content-Type: application/json
 Accept: application/json
-
+body:
 {
   "email": "my_email@example.com",
   "password": "password"
@@ -61,7 +63,7 @@ Request:
 GET /api/v1/forecast?<CITY AND STATE, FOR EXAMPLE denver,co>
 Content-Type: application/json
 Accept: application/json
-
+body:
 {
   "api_key": "6kzqk71x8vezd6odo5rp"
 }
@@ -72,7 +74,6 @@ Response:
 ```
 status: 200
 body:
-
 {
   "location": "Denver, C0",
   "currently": {
@@ -147,7 +148,7 @@ Request:
 POST /api/v1/favorites
 Content-Type: application/json
 Accept: application/json
-
+body:
 {
   "location": <CITY AND STATE, FOR EXAMPLE "Denver, CO">,
   api_key": "6kzqk71x8vezd6odo5rp"
@@ -160,4 +161,21 @@ body:
 {
   "message": "Denver, CO has been added to your favorites"
 }
+```
+
+### Removing a Favorite City (Denver, for example)
+Request:
+```
+DELETE /api/v1/favorites
+Content-Type: application/json
+Accept: application/json
+body:
+{
+  "location": <CITY AND STATE, FOR EXAMPLE "Denver, CO">,
+  "api_key": "6kzqk71x8vezd6odo5rp"
+}
+```
+Response:
+```
+status: 204
 ```
