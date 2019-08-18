@@ -17,8 +17,13 @@ router.post("/", function (req, res, next) {
         res.status(201).send(JSON.stringify({api_key: user.apiKey}));
       })
       .catch(error => {
+        console.log(error);
         res.setHeader("Content-Type", "application/json");
-        res.status(500).send({ error });
+        if (error.name == SequelizeUniqueConstraintError) {
+          res.status(422).send({ error: 'Email has already been taken' })
+        } else {
+          res.status(500).send({ error });
+        }
       });
   } else {
     res.setHeader("Content-Type", "application/json");
