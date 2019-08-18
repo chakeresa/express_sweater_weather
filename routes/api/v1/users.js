@@ -18,7 +18,7 @@ router.post("/", function (req, res, next) {
       })
       .catch(error => {
         res.setHeader("Content-Type", "application/json");
-        res.status(500).send({ error });
+        res.status(422).send({ error: 'Email has already been taken' })
       });
   } else {
     res.setHeader("Content-Type", "application/json");

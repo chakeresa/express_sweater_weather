@@ -37,7 +37,6 @@ describe('api v1 favorites DELETE', () => {
             })
         })
         .then(response => {
-          console.log(response.body);
           expect(response.statusCode).toBe(204);
 
           return FavoriteLocation.count()
@@ -84,7 +83,6 @@ describe('api v1 favorites DELETE', () => {
             })
         })
         .then(response => {
-          console.log(response.body);
           expect(response.statusCode).toBe(204);
 
           return FavoriteLocation.count()
@@ -156,8 +154,6 @@ describe('api v1 favorites DELETE', () => {
             })
         })
         .then(response => {
-          console.log(response.body)
-          console.log(response.statusCode)
           expect(response.statusCode).toBe(400);
 
           expect(response.body).toEqual({
