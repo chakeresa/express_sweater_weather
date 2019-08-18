@@ -47,6 +47,53 @@ describe('api v1 favorites DELETE', () => {
         });
     });
 
+    test("doesn't delete another user's FavoriteLocation", () => {
+      // user1 attempts to delete a favoriteLocation
+      let email1 = 'email11111@example.com'
+      // user2 has the favoriteLocation
+      let email2 = 'email11121@example.com'
+      let password = 'password'
+      let locationString = 'Denver, CO'
+      const apiKey1 = security.randomString()
+      const apiKey2 = security.randomString()
+
+      return User.create({
+        email: email1,
+        passwordDigest: security.hashedPassword(password),
+        apiKey: apiKey1
+      })
+        .then(user1 => {
+          return User.create({
+            email: email2,
+            passwordDigest: security.hashedPassword(password),
+            apiKey: apiKey2
+          })
+        })
+        .then(user2 => {
+          return FavoriteLocation.create({
+            UserId: user2.id,
+            name: locationString
+          })
+        })
+        .then(favoriteLocation => {
+          return request(app)
+            .del('/api/v1/favorites')
+            .send({
+              'location': locationString,
+              'api_key': apiKey1
+            })
+        })
+        .then(response => {
+          console.log(response.body);
+          expect(response.statusCode).toBe(204);
+
+          return FavoriteLocation.count()
+        })
+        .then(count => {
+          expect(count).toEqual(1);
+        });
+    });
+
     // TODO: test that another user's entry of the same name is not deleted
     // TODO: test that it doesn't error out if no resource found
 
