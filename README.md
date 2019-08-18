@@ -1,19 +1,49 @@
 # Sweater Weather (in Express Framework)
-*********about
+This REST API allows users to create an account & login, as well as fetch the forecast for a location, and add/remove favorite locations if they have a valid API key. All responses are JSON.
+
+The app is deployed at https://aqueous-bastion-69439.herokuapp.com.
+
+This project was part of [Turing School of Software & Design](https://turing.io)'s Back End Engineering program (Mod 4). See project spec [here](https://backend.turing.io/module4/projects/express_sweater_weather/express_sweater_weather_spec). It was completed in 7 days by [Alexandra Chakeres](https://github.com/chakeresa) (with the flu) as my first Express app / first real use of JavaScript / first time testing JavaScript. A [similar project](https://github.com/chakeresa/sweater_weather) (in Ruby on Rails) was completed as part of Mod 3.
+
+## Schema
+![schema](./public/images/schema.png)
+
+## Tech Stack
+### Core Components
+ - Framework: Express (v4.16.4)
+ - Language: JavaScript
+ - Database: PostgreSQL
+ - ORM: Sequelize (v5.14.0)
+ - Testing: Jest (v24.9.0)
+
+### Other Packages
+ - `bcrypt` password hashing
+ - `dotenv` store environment variables securely
+ - `request` make HTTP requests
+ - `request-promise` make promise-based HTTP requests
+ - `shelljs` run terminal commands
+ - `supertest` test HTTP requests
 
 ## Setup on your machine
+ - `$git clone git@github.com:chakeresa/express_sweater_weather.git`
  - `$npm install`
+ - Edit `config/config.json`: Change all username fields to your own postgres username (shows up before the command prompt after you run `$psql`)
  - `$npx sequelize db:create` (need to change username in `config.json`?)
  - `$npx sequelize db:migrate`
+ - Add a file `.env` to the root directory with your own API keys:
+ ```
+ GOOGLE_MAPS_API_KEY=<YOUR GOOGLE MAPS API KEY>
+ DARK_SKY_API_KEY=<YOUR DARK SKY API KEY>
+ ```
 
-### Start the server
- - `$npm start` or `$nodemon`
+### Run the server
+ - `$npm start`
+ - Access endpoints at `http://localhost:3000`
 
 ### Run the test suite
- - `$npm test`
+ - `$npm test`]()
 
 ## API Endpoints
-
 ### New user registration
 Request:
 ```
@@ -179,3 +209,11 @@ Response:
 ```
 status: 204
 ```
+
+## Administrative
+### Known Issues
+ - Format of the city, state in the `GET /api/v1/forecast` endpoint is not quite per spec -- currently returns something like "Denver, CO, USA" or sometimes "Pueblo, TX, 76464, USA".
+ - The `GET /api/v1/forecast` endpoint is returning some extra data that is not required per the spec (like `dewPoint` & `ozone`).
+
+### How to Contribute
+Visit https://github.com/chakeresa/express_sweater_weather/pulls and click `New pull request`
