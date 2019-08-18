@@ -212,7 +212,8 @@ status: 204
 
 ## Administrative
 ### Known Issues
-None identified
+ - Format of the city, state in the `GET /api/v1/forecast` endpoint is not quite per spec -- currently returns something like "Denver, CO, USA" or sometimes "Pueblo, TX, 76464, USA".
+ - The `GET /api/v1/forecast` endpoint is returning some extra data that is not required per the spec (like `dewPoint` & `ozone`).
 
 ### How to Contribute
 Visit https://github.com/chakeresa/express_sweater_weather/pulls and click `New pull request`
