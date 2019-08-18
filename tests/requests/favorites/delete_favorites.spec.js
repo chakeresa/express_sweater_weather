@@ -11,7 +11,7 @@ describe('api v1 favorites DELETE', () => {
   });
 
   describe('Test the delete favorites path', () => {
-    test('returns a message', () => {
+    test('deletes the FavoriteLocation', () => {
       let email = 'email11111@example.com'
       let password = 'password'
       let locationString = 'Denver, CO'
@@ -23,9 +23,12 @@ describe('api v1 favorites DELETE', () => {
         apiKey: apiKey
       })
         .then(user => {
-          return user.createFavoriteLocation({name: locationString})
+          return FavoriteLocation.create({
+            UserId: user.id,
+            name: locationString
+          })
         })
-        .then(response => {
+        .then(favoriteLocation => {
           return request(app)
             .del('/api/v1/favorites')
             .send({
@@ -34,6 +37,7 @@ describe('api v1 favorites DELETE', () => {
             })
         })
         .then(response => {
+          console.log(response.body);
           expect(response.statusCode).toBe(204);
 
           return FavoriteLocation.count()
@@ -42,6 +46,8 @@ describe('api v1 favorites DELETE', () => {
           expect(count).toEqual(0);
         });
     });
+
+    // TODO: test that another user's entry of the same name is not deleted
 
     // test('bad API key', () => {
     //   let email = 'email11112@example.com'
