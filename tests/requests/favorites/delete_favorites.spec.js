@@ -94,9 +94,6 @@ describe('api v1 favorites DELETE', () => {
         });
     });
 
-    // TODO: test that another user's entry of the same name is not deleted
-    // TODO: test that it doesn't error out if no resource found
-
     test('bad API key', () => {
       let email = 'email11112@example.com'
       let password = 'password'
@@ -134,10 +131,48 @@ describe('api v1 favorites DELETE', () => {
         });
     });
 
-    // TODO: test missing location string
+    test('missing location', () => {
+      let email = 'email11113@example.com'
+      let password = 'password'
+      let locationString = 'Denver, CO'
+      const apiKey = security.randomString()
+
+      return User.create({
+        email: email,
+        passwordDigest: security.hashedPassword(password),
+        apiKey: apiKey
+      })
+        .then(user => {
+          return FavoriteLocation.create({
+            UserId: user.id,
+            name: locationString
+          })
+        })
+        .then(favoriteLocation => {
+          return request(app)
+            .del('/api/v1/favorites')
+            .send({
+              'api_key': apiKey
+            })
+        })
+        .then(response => {
+          console.log(response.body)
+          console.log(response.statusCode)
+          expect(response.statusCode).toBe(400);
+
+          expect(response.body).toEqual({
+            error: 'Requires location in body of request'
+          });
+
+          return FavoriteLocation.count()
+        })
+        .then(count => {
+          expect(count).toEqual(1);
+        });
+    });
 
     test('missing API key', () => {
-      let email = 'email11113@example.com'
+      let email = 'email11114@example.com'
       let password = 'password'
       let locationString = 'Denver, CO'
       const apiKey = security.randomString()

@@ -47,6 +47,11 @@ router.delete("/", function (req, res, next) {
   // TODO: cover case of missing locationString
   if (!apiKey) {
     unauthorized(res);
+  } else if (!locationString) {
+    res.setHeader("Content-Type", "application/json");
+    res.status(400).send(JSON.stringify({
+      error: 'Requires location in body of request'
+    }));
   } else {
     User.findOne({
       where: { apiKey: apiKey }
@@ -67,9 +72,9 @@ router.delete("/", function (req, res, next) {
         unauthorized(res);
       }
     })
-    // .catch(err => {
-    //   res.status(500).send(JSON.stringify({ error: err }));
-    // })
+    .catch(err => {
+      res.status(500).send(JSON.stringify({ error: err }));
+    })
   }
 });
 
