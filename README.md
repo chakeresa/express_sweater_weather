@@ -6,7 +6,7 @@ The app is deployed at https://aqueous-bastion-69439.herokuapp.com.
 This project was part of [Turing School of Software & Design](https://turing.io)'s Back End Engineering program (Mod 4). See project spec [here](https://backend.turing.io/module4/projects/express_sweater_weather/express_sweater_weather_spec). It was completed in 7 days by [Alexandra Chakeres](https://github.com/chakeresa) (with the flu) as my first Express app / first real use of JavaScript / first time testing JavaScript. A [similar project](https://github.com/chakeresa/sweater_weather) (in Ruby on Rails) was completed as part of Mod 3.
 
 ## Schema
-*************TODO
+![schema](./public/images/schema.png)
 
 ## Tech Stack
 ### Core Components
